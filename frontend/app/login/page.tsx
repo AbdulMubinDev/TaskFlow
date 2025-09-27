@@ -9,21 +9,28 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react"
+import { useAuth } from "@/contexts/AuthContext"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   })
+  const { login, isLoading } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsLoading(false)
+    console.log('Login form submitted with:', formData)
+
+    const success = await login(formData.email, formData.password)
+    console.log('Login result:', success)
+    if (success) {
+      // Redirect to dashboard or home page
+      window.location.href = '/dashboard'
+    } else {
+      alert('Invalid credentials')
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -10,11 +10,11 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, ArrowLeft, Loader2, Check } from "lucide-react"
+import { useAuth } from "@/contexts/AuthContext"
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
@@ -23,14 +23,28 @@ export default function SignupPage() {
     password: "",
     confirmPassword: "",
   })
+  const { register, isLoading } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreedToTerms) return
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsLoading(false)
+
+    console.log('Signup form submitted with:', formData)
+    const success = await register({
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      password_confirm: formData.confirmPassword,
+    })
+
+    console.log('Registration result:', success)
+    if (success) {
+      alert('Registration successful! Please log in.')
+      window.location.href = '/login'
+    } else {
+      alert('Registration failed. Please check your information.')
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
