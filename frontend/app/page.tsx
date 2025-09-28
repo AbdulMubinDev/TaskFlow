@@ -69,12 +69,14 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/signup">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-lg px-8"
-                >
-                  Start Free Trial
-                </Button>
+                <Link href="/signup">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-lg px-8"
+                  >
+                    Start Free Trial
+                  </Button>
+                </Link>
               </Link>
               <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent">
                 Watch Demo
